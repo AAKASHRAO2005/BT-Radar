@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bluetooth Radar Scanner</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="header">
+      <img
+        src="{{ url_for('static', filename='BT.png') }}"
+        alt="Bluetooth Logo"
+        class="logo"
+      />
+      <div class="title-box">
+        <h1>Bluetooth Radar Scanner</h1>
+        <p>Track nearby Bluetooth devices in real time</p>
+      </div>
+    </div>
+
+    <button onclick="scanDevices()" id="scanBtn" class="scan-btn">
+      🔍 Scan Devices
+    </button>
+
+    <h2>📡 Live Radar</h2>
+    <div class="radar-container">
+      <div class="radar">
+        <div class="sweep"></div>
+        <div id="dots"></div>
+      </div>
+    </div>
+
+    <h2>📋 Detected Devices</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Device Name</th>
+          <th>MAC Address</th>
+          <th>RSSI</th>
+          <th>Distance</th>
+          <th>Direction</th>
+          <th>Signal</th>
+          <th>Classification</th>
+        </tr>
+      </thead>
+      <tbody id="deviceTable">
+        <tr>
+          <td colspan="4">No devices scanned yet</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div id="popup" class="popup hidden">
+      <h3>📱 Device Details</h3>
+      <p><strong>Name:</strong> <span id="popup-name"></span></p>
+      <p><strong>MAC:</strong> <span id="popup-address"></span></p>
+      <p><strong>RSSI:</strong> <span id="popup-rssi"></span></p>
+      <p><strong>Distance:</strong> <span id="popup-distance"></span></p>
+      <p>
+        <strong>Manufacturer:</strong> <span id="popup-manufacturer"></span>
+      </p>
+      <p><strong>Direction:</strong> <span id="popup-direction"></span></p>
+      <p>
+        <strong>Classification:</strong> <span id="popup-classification"></span>
+      </p>
+      <button onclick="closePopup()">Close</button>
+    </div>
+
+    <audio id="ping" src="{{ url_for('static', filename='ping.mp3') }}"></audio>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
