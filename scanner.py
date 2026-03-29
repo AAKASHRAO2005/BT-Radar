@@ -1,25 +1,26 @@
 import asyncio
 from bleak import BleakScanner
 
-def calculate_distance(rssi):
-    tx_power = -59
-    n = 2.5
-    return round(10 ** ((tx_power - rssi) / (10 * n)), 2)
-
 async def scan_devices():
     devices = await BleakScanner.discover(return_adv=True)
-    result = []
+    results = []
 
     for address, (device, adv) in devices.items():
-        result.append({
-            "name": device.name or None,
+        rssi = adv.rssi if adv.rssi is not None else -100
+        distance = round(10 ** ((-59 - rssi) / (10 * 2)), 2)
+
+        results.append({
+            "name": device.name or "Unknown",
             "address": device.address,
-            "rssi": adv.rssi,
-            "distance": calculate_distance(adv.rssi)
+            "rssi": rssi,
+            "distance": distance
         })
 
-    return result
-
+    return results
 
 def get_devices():
-    return asyncio.run(scan_devices())
+    try:
+        return asyncio.run(scan_devices())
+    except Exception as e:
+        print("Bluetooth scan failed:", e)
+        return []
